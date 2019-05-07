@@ -70,8 +70,9 @@ if(isset($_FILES['image']))
                     $destiny = $folder.$fileNewName;
                     echo $destiny;
            move_uploaded_file($img_tmp,$destiny);
-           $sql = "UPDATE user set image='$fileNewName' WHERE image='$image'";
+           $sql = "UPDATE user set image='$fileNewName', date='$date' WHERE image='$image'";
            $res = mysqli_query($conn,$sql);
+           unlink($folder.$image);
            header("LOCATION: image.php");
            }
            else{

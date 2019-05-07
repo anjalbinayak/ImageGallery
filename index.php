@@ -10,10 +10,7 @@
 /**Crystal Solution Project 657 */
  
  include("conn.php");
-function display($mesg)
-{
-    echo $mesg;
-}
+
 ?>
 <body>
 <div class="jumbotron">

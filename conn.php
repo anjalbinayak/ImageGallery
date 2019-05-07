@@ -1,5 +1,6 @@
 <?php
 $conn = mysqli_connect("localhost","root","","crystal");
+
 date_default_timezone_set("Asia/Kathmandu");
 if(!$conn)
 {
@@ -8,24 +9,34 @@ if(!$conn)
 
 function manipulate($time)
 {
+
     $current = time();
     $time = strtotime($time);
-if(($current -$time) < 60)
+    $ago = $current - $time;
+if(($ago) < 60)
 {
-    return floor(($current-$time)).  " secs ago";
+    return floor(($ago)).  " secs ago";
 }
-if(($current-$time) > (60))
+if($ago > 60)
 {
-return floor((($current-$time)/60)). " mins ago ";
+return floor($ago/60). " mins ago";
 }
 
-if(($current-$time) > (60*60))
+if(($ago) > (60*60))
 {
-return floor((($current-$time)/(60*60))). " hours ago ";
+return floor(($ago)/(60*60)). " hours ago ";
 }
 
 
 }
+
+
+
+function display($mesg)
+{
+    echo $mesg;
+}
+
 
 
 ?>
