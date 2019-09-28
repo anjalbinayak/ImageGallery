@@ -1,33 +1,38 @@
 <?php
-$conn = mysqli_connect("localhost","root","","crystal");
-
+$conn = mysqli_connect("localhost","root","","binayak");
 date_default_timezone_set("Asia/Kathmandu");
 if(!$conn)
 {
     echo "Error";
 } 
 
-function manipulate($time)
-{
+function manipulate($datetime, $full = false) {
+    $now = new DateTime;
+    $ago = new DateTime($datetime);
+    $diff = $now->diff($ago);
 
-    $current = time();
-    $time = strtotime($time);
-    $ago = $current - $time;
-if(($ago) < 60)
-{
-    return floor(($ago)).  " secs ago";
-}
-if($ago > 60)
-{
-return floor($ago/60). " mins ago";
-}
+    $diff->w = floor($diff->d / 7);
+    $diff->d -= $diff->w * 7;
 
-if(($ago) > (60*60))
-{
-return floor(($ago)/(60*60)). " hours ago ";
-}
+    $string = array(
+        'y' => 'year',
+        'm' => 'month',
+        'w' => 'week',
+        'd' => 'day',
+        'h' => 'hour',
+        'i' => 'minute',
+        's' => 'second',
+    );
+    foreach ($string as $k => &$v) {
+        if ($diff->$k) {
+            $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+        } else {
+            unset($string[$k]);
+        }
+    }
 
-
+    if (!$full) $string = array_slice($string, 0, 1);
+    return $string ? implode(', ', $string) . ' ago' : 'just now';
 }
 
 
